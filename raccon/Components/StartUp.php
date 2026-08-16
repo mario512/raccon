@@ -1,7 +1,10 @@
 <?php
-date_default_timezone_set('Europe/Helsinki');
 // Подключение файла с настройками
 require_once ROOT . '/Config/Config.php';
+date_default_timezone_set(APP_TIMEZONE);
+ini_set('display_errors', APP_DEBUG ? '1' : '0');
+ini_set('log_errors', '1');
+error_reporting(E_ALL);
 // Подключение класса загрузчика
 require_once ROOT . '/Components/Loader.php';
 // Вызов автозагрузки классов

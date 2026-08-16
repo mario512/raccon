@@ -1,22 +1,123 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title><?php echo $title;?></title>
-    <!-- Meta -->
     <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="">
-    <meta name="author" content="">    
-    <link rel="shortcut icon" href="<?php echo $favicon;?>">  
-    <link href='https://fonts.googleapis.com/css?family=Open+Sans:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800' rel='stylesheet' type='text/css'>
-    <!-- FontAwesome JS -->
-    <script defer src="<?php echo $url_assets;?>assets/fontawesome/js/all.js"></script>
-    <!-- Global CSS -->
-    <link rel="stylesheet" href="<?php echo $url_assets;?>assets/plugins/bootstrap/css/bootstrap.min.css">   
-    <!-- Plugins CSS -->    
-    <link rel="stylesheet" href="<?php echo $url_assets;?>assets/plugins/elegant_font/css/style.css">    
-    <!-- Theme CSS -->
-    <link id="theme-style" rel="stylesheet" href="<?php echo $url_assets;?>assets/css/styles.css">
-</head> 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title><?php echo $title; ?></title>
+    <link rel="shortcut icon" href="<?php echo $favicon; ?>">
+    <style>
+        :root {
+            color-scheme: light;
+            --bg: #f7f9fb;
+            --ink: #17202a;
+            --muted: #5d6d7e;
+            --line: #d9e2ec;
+            --brand: #1f7a8c;
+            --accent: #bf4e30;
+            --panel: #ffffff;
+        }
 
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: var(--bg);
+            color: var(--ink);
+            font: 16px/1.6 system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+        }
+
+        a {
+            color: var(--brand);
+        }
+
+        .shell {
+            width: min(1040px, calc(100% - 32px));
+            margin: 0 auto;
+        }
+
+        .hero {
+            padding: 56px 0 32px;
+            border-bottom: 1px solid var(--line);
+            background: var(--panel);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 28px;
+        }
+
+        .brand img {
+            width: 56px;
+            height: 56px;
+        }
+
+        .brand strong {
+            font-size: 20px;
+        }
+
+        h1 {
+            max-width: 760px;
+            margin: 0;
+            font-size: clamp(34px, 5vw, 58px);
+            line-height: 1.05;
+        }
+
+        .lead {
+            max-width: 720px;
+            margin: 22px 0 0;
+            color: var(--muted);
+            font-size: 20px;
+        }
+
+        .section {
+            padding: 38px 0;
+        }
+
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 16px;
+        }
+
+        .card {
+            min-height: 160px;
+            padding: 22px;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            background: var(--panel);
+        }
+
+        .card h2 {
+            margin: 0 0 10px;
+            font-size: 20px;
+        }
+
+        .card p {
+            margin: 0;
+            color: var(--muted);
+        }
+
+        .cta {
+            display: inline-flex;
+            align-items: center;
+            min-height: 44px;
+            margin-top: 26px;
+            padding: 0 18px;
+            border-radius: 6px;
+            background: var(--accent);
+            color: #fff;
+            font-weight: 700;
+            text-decoration: none;
+        }
+
+        footer {
+            padding: 24px 0 36px;
+            color: var(--muted);
+        }
+    </style>
+</head>
+<body>

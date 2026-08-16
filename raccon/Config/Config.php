@@ -1,23 +1,57 @@
 <?php
-// НАСТРОЙКИ ШАБЛОНА
-define('THEME',                         'PrettyDocs-Theme-master');            // Название темы
-define('TEMPLATE_EXT',                  'html'); // или 'php'
-define('PAGE_404',                      '/Site/404.php');        // Страница 404 относительно каталога темы
+function load_env_file(string $path): void
+{
+    if (!is_file($path) || !is_readable($path)) {
+        return;
+    }
 
-define('LOGO',                          'raccoon_logo.png');            // Лого сайта относительно каталога image
-define('FAVICON',                       'favicon.ico');         // Иконка сайта относительно каталога image
-define('LANGUAGE_CODE',                 'en');                  // Код основного языка шаблона сайта. например 'ru' или 'uk'
-define('TELEGRAM',                      'https://t.me/myxa_cc');// Ссылка на телеграм канал сайта
-define('EMAIL',                         'cc@Myxa.cc');          // Email сайта
-define('IMAGE_QUALITY',                 '100');                 // Качество изображения 
-define('LOGO_HEADER_SIZE',              '60x60');              // Размер логотипа в шапке сайта
-define('USER_PHONE_MASK',               '+7');
+    foreach (file($path, FILE_IGNORE_NEW_LINES | FILE_SKIP_EMPTY_LINES) as $line) {
+        $line = trim($line);
+
+        if ($line === '' || str_starts_with($line, '#') || !str_contains($line, '=')) {
+            continue;
+        }
+
+        [$key, $value] = explode('=', $line, 2);
+        $key = trim($key);
+        $value = trim($value, " \t\n\r\0\x0B\"'");
+
+        if ($key !== '' && getenv($key) === false) {
+            putenv($key . '=' . $value);
+            $_ENV[$key] = $value;
+        }
+    }
+}
+
+function env_value(string $key, string $default = ''): string
+{
+    $value = getenv($key);
+    return $value === false ? $default : $value;
+}
+
+load_env_file(ROOT . '/.env');
+
+// НАСТРОЙКИ ШАБЛОНА
+define('APP_DEBUG',                     filter_var(env_value('APP_DEBUG', '0'), FILTER_VALIDATE_BOOLEAN));
+define('APP_TIMEZONE',                  env_value('APP_TIMEZONE', 'UTC'));
+define('THEME',                         env_value('APP_THEME', 'PrettyDocs-Theme-master'));
+define('TEMPLATE_EXT',                  env_value('APP_TEMPLATE_EXT', 'html'));
+define('PAGE_404',                      '/Site/404.php');
+
+define('LOGO',                          env_value('APP_LOGO', 'raccoon_logo.png'));
+define('FAVICON',                       env_value('APP_FAVICON', 'favicon.ico'));
+define('LANGUAGE_CODE',                 env_value('APP_LANGUAGE', 'en'));
+define('TELEGRAM',                      env_value('APP_TELEGRAM', ''));
+define('EMAIL',                         env_value('APP_EMAIL', ''));
+define('IMAGE_QUALITY',                 env_value('APP_IMAGE_QUALITY', '90'));
+define('LOGO_HEADER_SIZE',              env_value('APP_LOGO_HEADER_SIZE', '60x60'));
+define('USER_PHONE_MASK',               env_value('APP_USER_PHONE_MASK', '+1'));
 
 // ПАРАМЕТРЫ ПОДКЛЮЧЕНИЯ DB //
-define('HOST',            'localhost');                     // Адресс сервера
-define('DB_NAME',         'my_mag');                        // Имя базы данных
-define('USER',            'my_mag');                        // Пользователь
-define('PASSWORD',        'my_mag');                          // Пароль
+define('HOST',                          env_value('DB_HOST', 'localhost'));
+define('DB_NAME',                       env_value('DB_DATABASE', 'raccon'));
+define('USER',                          env_value('DB_USERNAME', 'raccon'));
+define('PASSWORD',                      env_value('DB_PASSWORD', ''));
 
 // СИСТЕМНЫЕ НАСТРОЙКИ
-define('CATALOG_IMAGE',          'image');
+define('CATALOG_IMAGE',                 env_value('APP_IMAGE_DIR', 'image'));
