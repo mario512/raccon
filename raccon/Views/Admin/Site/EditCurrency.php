@@ -18,19 +18,19 @@
                     <div class="row">
                         <div class="col-6">
 
-                            <label for="inputName" class="form-label">Название валюты</label>
+                            <label for="inputName" class="form-label"><?php echo $dataPage['text_label_currency_name']; ?></label>
                             <input type="text" id="inputName" name="inputName" class="form-control" aria-describedby="inputName" value="<?php echo $dataPage['currency_name']; ?>">
                             <div id="inputName" class="form-text">
-                                Полное названюе валюты. Например - Cardano ADA
+                                <?php echo $dataPage['text_help_currency_name']; ?>
                             </div>
-                            <label for="inputNameToken" class="form-label">Название токена</label>
+                            <label for="inputNameToken" class="form-label"><?php echo $dataPage['text_label_token_name']; ?></label>
                             <input type="text" id="inputNameToken" name="inputNameToken" class="form-control" aria-describedby="inputNameToken" value="<?php echo $dataPage['currency_code']; ?>">
                             <div id="inputNameToken" class="form-text">
-                                Например - ADA
+                                <?php echo $dataPage['text_help_token_name']; ?>
                             </div>
-                            <label for="inputCurrencyCat" class="form-label">Категория валюты</label>
+                            <label for="inputCurrencyCat" class="form-label"><?php echo $dataPage['text_label_currency_category']; ?></label>
                             <select class="form-select" name="inputCurrencyCat" aria-label="inputCurrencyCat">
-                                <option>Выберите категорию</option>
+                                <option><?php echo $dataPage['text_option_select_category']; ?></option>
                                 <?php if ($dataPage['currency_category']) { ?>
                                     <?php foreach ($dataPage['currency_category'] as $category) { ?>
                                         <option <?php echo $category['currency_cat_by_currency'] ?>><?php echo $category['currency_cat_name']; ?></option>
@@ -38,11 +38,11 @@
                                 <?php } ?>
                             </select>
                             <div id="inputCurrencyCat" class="form-text">
-                                В случае с криптовалютой, название категории совпадает с названием токена. Если фиатная карта, например Visa USD, то значение должно совпадать в валютой карты.
+                                <?php echo $dataPage['text_help_currency_category']; ?>
                             </div>
-                            <label for="inputInOut" class="form-label">Направление обмена</label>
+                            <label for="inputInOut" class="form-label"><?php echo $dataPage['text_label_exchange_direction']; ?></label>
                             <select class="form-select" name="inputInOut" aria-label="inputInOut">
-                                <option>Выберите направление</option>
+                                <option><?php echo $dataPage['text_option_select_direction']; ?></option>
                                 <?php if ($dataPage['currency_in_out']) { ?>
                                     <?php foreach ($dataPage['currency_in_out'] as $inOut) { ?>
                                         <option <?php echo $inOut['currency_in_out_active']; ?>><?php echo $inOut['currency_in_out_name']; ?></option>
@@ -50,12 +50,12 @@
                                 <?php } ?>
                             </select>
                             <div id="inputInOut" class="form-text">
-                                Направление обмена. Если валюта входа, например крипта, то валюта на выходе - фиат. В данном случае, крипта будет валютой входа.
+                                <?php echo $dataPage['text_help_exchange_direction']; ?>
                             </div>
                         </div>
                         <div class="col-6">
                             <div class="mb-3">
-                                <label for="formImg" class="form-label">Логотип валюты</label>
+                                <label for="formImg" class="form-label"><?php echo $dataPage['text_label_currency_logo']; ?></label>
                                 <div class="row">
                                     <div class="col-3">
                                         <img src="<?php echo $dataPage['currency_image']; ?>" alt="..." class="avatar-img this-currency" width="40" height="40">
@@ -70,26 +70,26 @@
                                 </div>
                             </div>
                             <div id="formImg" class="form-text">
-                                Логотип валюты. Желательно в формате png
+                                <?php echo $dataPage['text_help_currency_logo']; ?>
                             </div>
 
 
-                            <label for="inputRandom" class="form-label">Диапазон чисел для рандомной генерации</label>
+                            <label for="inputRandom" class="form-label"><?php echo $dataPage['text_label_random_range']; ?></label>
                             <input type="text" id="inputRandom" name="inputRandom" class="form-control" aria-describedby="inputRandom" value="<?php echo $dataPage['currency_rand_min_max']; ?>">
                             <div id="inputRandom" class="form-text">
-                                Необходимо указывать для генерации резервов валюты и иммитации транзакции. Например для BTC: 10-30
+                                <?php echo $dataPage['text_help_random_range']; ?>
                             </div>
-                            <label for="inputWallet" class="form-label">Номер кошелька</label>
+                            <label for="inputWallet" class="form-label"><?php echo $dataPage['text_label_wallet']; ?></label>
                             <input type="text" id="inputWallet" name="inputWallet" class="form-control" aria-describedby="inputWallet" value="<?php echo $dataPage['currency_wallet']; ?>">
                             <div id="inputWallet" class="form-text">
-                                Номер кошелька, для данной криптовалюты.
+                                <?php echo $dataPage['text_help_wallet']; ?>
                             </div>
 
                         </div>
                     </div>
                     <div class="col-3 clearfix"></div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
-                    <button type="button" class="btn btn-primary " id="button-delete">Удалить</button>
+                    <button type="submit" class="btn btn-primary"><?php echo $dataPage['text_button_save']; ?></button>
+                    <button type="button" class="btn btn-primary " id="button-delete"><?php echo $dataPage['text_button_delete']; ?></button>
             </div>
             </form>
         </div>
@@ -123,7 +123,7 @@
 
         });
         $('#button-delete').on('click', function(e) {
-            var isDelete = confirm("Удалить валюту?");
+            var isDelete = confirm("<?php echo $dataPage['text_confirm_delete']; ?>");
             if (isDelete) {
                 var currencyId = $('form').attr('currency-id');
                 $.ajax({

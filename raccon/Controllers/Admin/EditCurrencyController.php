@@ -109,6 +109,25 @@ class EditCurrencyController extends Admin
 
         $dataPage['href_return'] = Router::getUrlLink('/admin-currency/');
         $dataPage['href_img']    = $this->image->resize('arrow-left.png', 30, 30);
+        $dataPage['text_label_currency_name'] = $language['text_label_currency_name'];
+        $dataPage['text_help_currency_name'] = $language['text_help_currency_name'];
+        $dataPage['text_label_token_name'] = $language['text_label_token_name'];
+        $dataPage['text_help_token_name'] = $language['text_help_token_name'];
+        $dataPage['text_label_currency_category'] = $language['text_label_currency_category'];
+        $dataPage['text_option_select_category'] = $language['text_option_select_category'];
+        $dataPage['text_help_currency_category'] = $language['text_help_currency_category'];
+        $dataPage['text_label_exchange_direction'] = $language['text_label_exchange_direction'];
+        $dataPage['text_option_select_direction'] = $language['text_option_select_direction'];
+        $dataPage['text_help_exchange_direction'] = $language['text_help_exchange_direction'];
+        $dataPage['text_label_currency_logo'] = $language['text_label_currency_logo'];
+        $dataPage['text_help_currency_logo'] = $language['text_help_currency_logo'];
+        $dataPage['text_label_random_range'] = $language['text_label_random_range'];
+        $dataPage['text_help_random_range'] = $language['text_help_random_range'];
+        $dataPage['text_label_wallet'] = $language['text_label_wallet'];
+        $dataPage['text_help_wallet'] = $language['text_help_wallet'];
+        $dataPage['text_button_save'] = $language['text_button_save'];
+        $dataPage['text_button_delete'] = $language['text_button_delete'];
+        $dataPage['text_confirm_delete'] = $language['text_confirm_delete'];
         
         $dataPage['url_image_edit'] = Router::getUrlLink('/admin-currency-edit-img/');
         

@@ -18,31 +18,31 @@
                     <div class="row">
                         <div class="col-6">
 
-                            <label for="inputName" class="form-label">Имя пользователя</label>
+                            <label for="inputName" class="form-label"><?php echo $dataPage['text_label_name']; ?></label>
                             <input type="text" id="inputName" name="inputName" class="form-control" aria-describedby="inputName" value="<?php echo $dataPage['user_name']; ?>">
                             <div id="inputName" class="form-text">
-                                Имя пользователя. Например - Рачко
+                                <?php echo $dataPage['text_help_name']; ?>
                             </div>
-                            <label for="inputLogin" class="form-label">Email пользователя (Логин)</label>
+                            <label for="inputLogin" class="form-label"><?php echo $dataPage['text_label_email']; ?></label>
                             <input type="text" id="inputLogin" name="inputLogin" class="form-control" aria-describedby="inputLogin" value="<?php echo $dataPage['user_login']; ?>">
                             <div id="inputLogin" class="form-text">
-                                Именем пользователя может бфть только Email
+                                <?php echo $dataPage['text_help_email']; ?>
                             </div>
-                            <label for="inputPass" class="form-label">Пароль</label>
+                            <label for="inputPass" class="form-label"><?php echo $dataPage['text_label_password']; ?></label>
                             <input type="text" id="inputPass" name="inputPass" class="form-control" aria-describedby="inputPass" value="<?php echo $dataPage['user_pass']; ?>">
                             <div id="inputPass" class="form-text">
-                                Пароль длинной не менее 8 символов
+                                <?php echo $dataPage['text_help_password']; ?>
                             </div>
 
                         </div>
 
                         <div id="inputPass" class="form-text">
-                            После сохранение данных, вы будете переадресованы на страницу авторизации
+                            <?php echo $dataPage['text_after_save']; ?>
                         </div>
                         <div class="col-12 clearfix"></div>
                     </div>
                     <div class="col-3 clearfix"></div>
-                    <button type="submit" class="btn btn-primary">Сохранить</button>
+                    <button type="submit" class="btn btn-primary"><?php echo $dataPage['text_button_save']; ?></button>
 
             </div>
             </form>

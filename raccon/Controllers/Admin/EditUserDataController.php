@@ -43,6 +43,7 @@ class EditUserDataController extends Admin
 
     public function actionEdit()
     {
+        $language = Registry::get('language')->getLanguage('user', true);
        
         if ($_POST) {
             $this->edit($_POST);
@@ -50,9 +51,17 @@ class EditUserDataController extends Admin
         }
         
         $dataPage['href_return']  = Router::getUrlLink('/admin-currency/');;
-        $dataPage['text_title_edit'] = '';
+        $dataPage['text_title_edit'] = $language['text_title_edit'];
         $dataPage['href_img']        = $this->image->resize('arrow-left.png', 30, 30);
         $dataPage['url_image_edit'] = Router::getUrlLink('/admin-currency/');
+        $dataPage['text_label_name'] = $language['text_label_name'];
+        $dataPage['text_help_name'] = $language['text_help_name'];
+        $dataPage['text_label_email'] = $language['text_label_email'];
+        $dataPage['text_help_email'] = $language['text_help_email'];
+        $dataPage['text_label_password'] = $language['text_label_password'];
+        $dataPage['text_help_password'] = $language['text_help_password'];
+        $dataPage['text_after_save'] = $language['text_after_save'];
+        $dataPage['text_button_save'] = $language['text_button_save'];
         
         if (Session::get()->user_email) {
             $dataPage['user_name']  = Session::get()->user_name;

@@ -52,10 +52,13 @@ Important variables:
 
 - `APP_DEBUG=0` for production
 - `APP_TIMEZONE=UTC`
+- `APP_LANGUAGE=en` for English interface strings
 - `DB_HOST=localhost`
 - `DB_DATABASE=raccon`
 - `DB_USERNAME=raccon`
 - `DB_PASSWORD=`
+
+Language files live in `Views/Catalog/<theme>/locale/<language>/` for the public site and `Views/Admin/locale/<language>/` for the admin area. The legacy Russian admin files in `Views/Admin/Language/ru/` are still supported.
 
 ## Publication Notes
 

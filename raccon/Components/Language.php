@@ -1,6 +1,6 @@
 <?php
 
-class Language
+class Language implements ArrayAccess
 {
     private $languageCode;
     private $languageValue;
@@ -27,12 +27,17 @@ class Language
     public function getLanguage($fileName, $isAdmin = false)
     {
         if ($isAdmin) {
-            $languagePatch = ROOT . '/Views/Admin/locale/' . $this->languageCode . '/' . ucfirst($fileName) . '.php';
+            $languagePatch = $this->resolveLanguagePath([
+                ROOT . '/Views/Admin/locale/' . $this->languageCode . '/' . ucfirst($fileName) . '.php',
+                ROOT . '/Views/Admin/Language/' . $this->languageCode . '/' . ucfirst($fileName) . '.php',
+            ]);
         } else {
-            $languagePatch = ROOT . '/Views/Catalog/' . THEME . '/locale/' . $this->languageCode . '/' . ucfirst($fileName) . '.php';
+            $languagePatch = $this->resolveLanguagePath([
+                ROOT . '/Views/Catalog/' . THEME . '/locale/' . $this->languageCode . '/' . ucfirst($fileName) . '.php',
+            ]);
         }
 
-        if (is_file($languagePatch)) {
+        if ($languagePatch && is_file($languagePatch)) {
             $langData = include $languagePatch;
             if (is_array($langData)) {
                 $this->languageValue = array_merge($this->languageValue ?? [], $langData);
@@ -42,6 +47,17 @@ class Language
         }
 
         return $this;
+    }
+
+    private function resolveLanguagePath(array $paths): ?string
+    {
+        foreach ($paths as $path) {
+            if (is_file($path)) {
+                return $path;
+            }
+        }
+
+        return null;
     }
 
 
@@ -64,10 +80,40 @@ class Language
 
     public function get($key)
     {
-        if (array_key_exists($key, $this->languageValue)) {
+        if (is_array($this->languageValue) && array_key_exists($key, $this->languageValue)) {
             return $this->languageValue[$key];
         } else {
             return $key;
+        }
+    }
+
+    public function offsetExists(mixed $offset): bool
+    {
+        return is_array($this->languageValue) && array_key_exists($offset, $this->languageValue);
+    }
+
+    public function offsetGet(mixed $offset): mixed
+    {
+        return $this->get($offset);
+    }
+
+    public function offsetSet(mixed $offset, mixed $value): void
+    {
+        if (!is_array($this->languageValue)) {
+            $this->languageValue = [];
+        }
+
+        if ($offset === null) {
+            $this->languageValue[] = $value;
+        } else {
+            $this->languageValue[$offset] = $value;
+        }
+    }
+
+    public function offsetUnset(mixed $offset): void
+    {
+        if (is_array($this->languageValue)) {
+            unset($this->languageValue[$offset]);
         }
     }
 }
