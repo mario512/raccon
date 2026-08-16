@@ -20,10 +20,6 @@ class Parser
         curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
 
         if ($errno = curl_errno($ch)) {
-          /** для отладки
-           * $message = curl_strerror($errno);
-           * echo "cURL error ({$errno}):\n {$message}"; 
-           */  
             return false;
         } else {
 
@@ -64,7 +60,7 @@ class Parser
             return false;
         }
         
-        sleep($parseData['sleep']); // loadHTML не успевает загрузить файл
+        sleep($parseData['sleep']); // Give the remote page time before parsing.
         
         $contentNode = $dom->getElementById(strval($parseData['id']));
         

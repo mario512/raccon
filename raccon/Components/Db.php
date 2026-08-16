@@ -18,9 +18,7 @@ class Db
                     PDO::ATTR_EMULATE_PREPARES => false
                 ]
             );
-            //$this->db = new PDO("mysql:host=" . HOST . ";dbname=" . DB_NAME . ";charset=UTF8", USER, PASSWORD);
         } catch (PDOException $e) {
-            // throw new Exception('Error: ' . $e->getMessage() . ' Error Code : ' . $e->getCode() . ' <br />');
             if ($e->getCode() === 2002 || $e->getCode() === 1044 || $e->getCode() === 1045) {
                 error_log("DB Connection failed: " . $e->getMessage());
                 exit('<h2>Not Data Base Connection</h2>');

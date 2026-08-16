@@ -12,7 +12,7 @@ return array(
     'text_title_of'         => 'из',
     // currency category
     'text_title_table'      => 'Категории валют',
-    // сurrency edit
+    // currency edit
     'text_title_edit'     => 'Редактирование',
     // currency new
     'text_title_new'      => 'Добавление новой валюты',

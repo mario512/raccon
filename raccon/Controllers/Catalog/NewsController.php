@@ -94,12 +94,12 @@ class NewsController
             $dataPage['news'] = '';
         }
         
-        // Паттерн для пангинации
+        // URL patterns replaced when building pagination links.
         $pattern = array(       
         '~/page-[0-9]+~',
         '~/[0-9]+~'
         );
-        // Ключ URL для формирования ссылки
+        // URL segment used before the page number.
         $keyUrl = 'page-';
         
         $dataPage['pagination_nav'] = (new Pagination($newsTotal, (int)$page, (int)$limitNews, $keyUrl, $pattern))->get();

@@ -26,13 +26,11 @@ class Router
 
     public function run()
     {
-        // Получаем строку запроса
         $uri = $this->getURI();
         $matched = false;
 
         foreach ($this->routes as $uriPattern => $path) {
 
-            // Проверка соответствия URI шаблону
             if ($uriPattern === '' && $uri === '') {
                 $internalRoute = $path;
             } elseif (preg_match("~^$uriPattern$~", $uri)) {
@@ -43,14 +41,12 @@ class Router
 
             $matched = true;
 
-            // Разбиваем внутренний путь
             $segments = explode('/', trim($internalRoute, '/'));
 
             $controllerName = ucfirst(array_shift($segments)) . 'Controller';
             $actionName     = 'action' . ucfirst(array_shift($segments) ?? 'index');
             $parameters     = $segments;
 
-            // Определяем каталог контроллера (admin или catalog)
             if (strpos($uri, 'admin') === 0) {
                 $catalog = '/Controllers/Admin/';
             } else {
@@ -59,7 +55,6 @@ class Router
 
             $controllerFile = ROOT . $catalog . $controllerName . '.php';
 
-            // Проверка существования файла
             if (is_file($controllerFile)) {
                 include_once $controllerFile;
 
@@ -67,19 +62,16 @@ class Router
                     $controllerObject = new $controllerName;
 
                     if (method_exists($controllerObject, $actionName)) {
-                        // Запускаем экшен с параметрами
                         call_user_func_array([$controllerObject, $actionName], $parameters);
-                        return; // Всё успешно, прекращаем роутинг
+                        return;
                     }
                 }
             }
 
-            // Если файл, класс или метод не найдены — ошибка 404
             Errors::handle404();
             return;
         }
 
-        // Если вообще ничего не совпало
         if (!$matched) {
             Errors::handle404();
         }

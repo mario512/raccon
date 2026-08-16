@@ -13,7 +13,6 @@ class Errors extends Controller
             }
         }
 
-        // если кастомного нет — вызвать дефолтный шаблон
         self::default404();
     }
 
@@ -25,7 +24,6 @@ class Errors extends Controller
         if (is_file($theme404)) {
             require_once $theme404;
         } else {
-            // простая заглушка
             $html =<<<HTML
                 <section class="error-page text-center" style="padding:80px 20px; font-family: 'Open Sans', sans-serif;">
                     <div class="container">    

@@ -31,7 +31,7 @@ function env_value(string $key, string $default = ''): string
 
 load_env_file(ROOT . '/.env');
 
-// НАСТРОЙКИ ШАБЛОНА
+// Template settings
 define('APP_DEBUG',                     filter_var(env_value('APP_DEBUG', '0'), FILTER_VALIDATE_BOOLEAN));
 define('APP_TIMEZONE',                  env_value('APP_TIMEZONE', 'UTC'));
 define('THEME',                         env_value('APP_THEME', 'PrettyDocs-Theme-master'));
@@ -47,11 +47,11 @@ define('IMAGE_QUALITY',                 env_value('APP_IMAGE_QUALITY', '90'));
 define('LOGO_HEADER_SIZE',              env_value('APP_LOGO_HEADER_SIZE', '60x60'));
 define('USER_PHONE_MASK',               env_value('APP_USER_PHONE_MASK', '+1'));
 
-// ПАРАМЕТРЫ ПОДКЛЮЧЕНИЯ DB //
+// Database connection
 define('HOST',                          env_value('DB_HOST', 'localhost'));
 define('DB_NAME',                       env_value('DB_DATABASE', 'raccon'));
 define('USER',                          env_value('DB_USERNAME', 'raccon'));
 define('PASSWORD',                      env_value('DB_PASSWORD', ''));
 
-// СИСТЕМНЫЕ НАСТРОЙКИ
+// System settings
 define('CATALOG_IMAGE',                 env_value('APP_IMAGE_DIR', 'image'));

@@ -4,7 +4,7 @@ class Registry
 	private static $_storage = array();
 
 	/**
-	 * Установка значения.
+	 * Store a value by key.
 	 */
 	public static function set($key, $value)
 	{
@@ -12,7 +12,7 @@ class Registry
 	}
 
 	/**
-	 * Получение значения.
+	 * Get a value by key.
 	 */
 	public static function get($key, $default = null)
 	{
@@ -20,7 +20,7 @@ class Registry
 	}
 
 	/**
-	 * Удаление.
+	 * Remove a value by key.
 	 */
 	public static function remove($key)
 	{
@@ -29,7 +29,7 @@ class Registry
 	}
 
 	/**
-	 * Очистка.
+	 * Clear all stored values.
 	 */
 	public static function clean()
 	{

@@ -17,10 +17,10 @@ The repository includes a demo application. Treat it as educational code and a s
 cp .env.example .env
 ```
 
-Set your database credentials in `.env`, import your schema, and point the web server document root to this directory:
+Set your database credentials in `.env`, import your schema, and point the web server document root to your project directory:
 
 ```text
-/var/www/light-cart.com/raccon
+/path/to/your/raccon
 ```
 
 For local PHP testing you can run:

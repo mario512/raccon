@@ -5,7 +5,7 @@ class Loader
     public function autoLoad(): bool
     {
         spl_autoload_register(function ($className) {
-            // безопасность
+            // Prevent path traversal through class names.
             if (preg_match('/\.\./', $className)) {
                 return;
             }

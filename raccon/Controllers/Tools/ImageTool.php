@@ -10,7 +10,7 @@ class ImageTool
         $catalogImage       = ROOT . '/' . CATALOG_IMAGE . '/';
         $catalogCacheImage  = '/cache/image';
 
-        // Проверяем наличие исходного файла
+        // Fall back to a placeholder when the requested image is missing.
         if (!is_file($catalogImage . $fileName)) {
             if (is_file($catalogImage . 'no_image.webp')) {
                 $fileName = 'no_image.webp';
@@ -34,26 +34,24 @@ class ImageTool
         $cacheFullPath = ROOT . $catalogCacheImage . '/' . $imageNew;
         $sourceFullPath = $catalogImage . $imageOriginal;
 
-        // Проверяем, нужно ли пересоздать кеш
+        // Refresh cached image when the source file is newer.
         if (!is_file($cacheFullPath) || (filectime($sourceFullPath) > filectime($cacheFullPath))) {
             if ($extension !== 'svg') {
-
-                // Загружаем информацию об изображении один раз
                 $imageInfo = getimagesize($sourceFullPath);
                 [$imgW, $imgH, $imgType] = $imageInfo;
 
-                // Поддерживаем только корректные форматы
+                // Resize only image formats supported by GD.
                 if (!in_array($imgType, [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_WEBP])) {
                     return $sourceFullPath;
                 }
 
             } else {
-                // SVG не ресайзим
+                // SVG files are copied as-is.
                 copy($sourceFullPath, $cacheFullPath);
                 return Router::getUrlLink($catalogCacheImage . '/' . $imageNew);
             }
 
-            // Создаем структуру каталогов
+            // Create the cache directory tree when needed.
             $pathBuild = ROOT;
             foreach (explode('/', dirname($catalogCacheImage . '/' . $imageNew)) as $dir) {
                 if (!empty($dir)) {
@@ -64,7 +62,6 @@ class ImageTool
                 }
             }
 
-            // Если размер другой — ресайзим
             if ($imgW != $width || $imgH != $height) {
                 $resultImage = new Image($sourceFullPath);
                 $resultImage->compression = $quality;
@@ -87,7 +84,7 @@ class ImageTool
             'image/webp'
         ];
 
-        $maxSize = 1024000; // 1MB
+        $maxSize = 1024000; // 1 MB
         $uploadDir = ROOT . '/' . CATALOG_IMAGE . '/';
 
         if (in_array($_FILES['file']['type'], $allowedTypes) && $_FILES['file']['size'] < $maxSize) {

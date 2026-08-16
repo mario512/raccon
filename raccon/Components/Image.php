@@ -3,7 +3,7 @@
 class Image
 {
     private  $imageOrig;
-    public   $compression = IMAGE_QUALITY; // для webp и jpeg
+    public   $compression = IMAGE_QUALITY; // Used for WebP and JPEG output.
     private  $imageType;
     private  $image;
 

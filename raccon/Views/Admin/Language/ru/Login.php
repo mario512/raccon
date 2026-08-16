@@ -9,7 +9,7 @@ return array(
     'error_user_data'       => 'Вже сечі немає терпіти ці пекельні борошна!',
     'error_email'           => 'Не корректный email',
     'error_password'        => 'Не корректный пароль',
-    // sucsses
+    // success
     'sucsses_login'         => 'Нигерия ебашит за всех русских мужиков!'
 );
 ?>
