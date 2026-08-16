@@ -42,6 +42,8 @@ cache/        generated runtime files, ignored by git
 index.php     public entry point
 ```
 
+See [docs/structure.md](docs/structure.md) for a simple guide to the project layout and request flow.
+
 ## Configuration
 
 Public defaults live in `Config/Config.php`. Private values should be provided through environment variables or a local `.env` file and must not be committed.
