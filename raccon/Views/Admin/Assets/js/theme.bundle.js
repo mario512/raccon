@@ -4188,7 +4188,7 @@
             var Zi = r(258),
                 Ui = r(7617);
             const Ji = Zi.Z("--prefix"),
-                Ki = document.getElementById("salesChart");
+                Ki = document.getElementById("activityChart");
             Ki &&
                 r
                     .e(427)
@@ -4199,20 +4199,20 @@
                             data: {
                                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                                 datasets: [
-                                    { label: "Projections", data: [12440, 15021, 10081, 10984, 8409, 12532, 13986, 19227, 12636, 10171, 6753, 15589], backgroundColor: Zi.Z(`${Ji}primary`) },
+                                    { label: "Planned", data: [12440, 15021, 10081, 10984, 8409, 12532, 13986, 19227, 12636, 10171, 6753, 15589], backgroundColor: Zi.Z(`${Ji}primary`) },
                                     { label: "Actual", data: [12357, 13665, 9071, 9914, 5115, 12291, 10010, 19092, 11976, 9174, 5189, 14523], backgroundColor: Zi.Z(`${Ji}light`), borderRadius: 30 },
                                 ],
                             },
                             options: {
-                                scales: { x: { stacked: !0, gridLines: { display: !1 } }, y: { stacked: !0, ticks: { callback: (e, t, n) => (e > 0 ? "$" + Math.floor(e / 1e3) + "k" : e) } } },
+                                scales: { x: { stacked: !0, gridLines: { display: !1 } }, y: { stacked: !0, ticks: { callback: (e, t, n) => (e > 0 ? Math.floor(e / 1e3) + "k" : e) } } },
                                 plugins: {
-                                    tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(e.parsed.y), labelColor: (e) => ({ backgroundColor: e.dataset.backgroundColor }) } },
+                                    tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US").format(e.parsed.y), labelColor: (e) => ({ backgroundColor: e.dataset.backgroundColor }) } },
                                 },
                             },
                         });
                     })
                     .catch(console.warn);
-            const Qi = document.getElementById("incomeChart");
+            const Qi = document.getElementById("usageChart");
             Qi &&
                 r
                     .e(427)
@@ -4236,7 +4236,7 @@
                             options: {
                                 layout: { padding: { top: 2, bottom: -10 } },
                                 scales: { x: { ticks: { display: !1 }, grid: { drawOnChartArea: !0 } }, y: { display: !1 } },
-                                plugins: { tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(e.parsed.y) } } },
+                                plugins: { tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US").format(e.parsed.y) } } },
                             },
                         });
                     })
@@ -4251,7 +4251,7 @@
                             type: "bar",
                             data: {
                                 labels: ["1 May, 2022", "5 May, 2022", "10 May, 2022", "15 May, 2022", "20 May, 2022", "25 May, 2022", "30 May, 2022"],
-                                datasets: [{ label: "Projections", data: [17, 20, 24, 34, 12, 10, 8], backgroundColor: Zi.Z(`${Ji}light`), borderRadius: 30 }],
+                                datasets: [{ label: "Planned", data: [17, 20, 24, 34, 12, 10, 8], backgroundColor: Zi.Z(`${Ji}light`), borderRadius: 30 }],
                             },
                             options: {
                                 hoverBackgroundColor: Zi.Z(`${Ji}primary`),
@@ -4262,7 +4262,7 @@
                         });
                     })
                     .catch(console.warn);
-            const Gi = document.getElementById("orderStatusChart");
+            const Gi = document.getElementById("taskStatusChart");
             Gi &&
                 r
                     .e(427)
@@ -4270,12 +4270,12 @@
                     .then(() => {
                         new Chart(Gi, {
                             type: "roundedDoughnut",
-                            data: { labels: ["Delivered", "In progress", "To-do"], datasets: [{ label: "Order status", data: [29, 45, 26], backgroundColor: [Zi.Z(`${Ji}primary`), Zi.Z(`${Ji}dark`), Zi.Z(`${Ji}gray-300`)] }] },
+                            data: { labels: ["Done", "In progress", "To-do"], datasets: [{ label: "Task status", data: [29, 45, 26], backgroundColor: [Zi.Z(`${Ji}primary`), Zi.Z(`${Ji}dark`), Zi.Z(`${Ji}gray-300`)] }] },
                             options: { plugins: { tooltip: { callbacks: { label: (e) => e.parsed + "%" } } } },
                         });
                     })
                     .catch(console.warn);
-            const es = document.getElementById("salesReportChart");
+            const es = document.getElementById("activityReportChart");
             es &&
                 r
                     .e(427)
@@ -4286,18 +4286,18 @@
                             data: {
                                 labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
                                 datasets: [
-                                    { label: "Income", data: [28, 70, 68, 77, 35, 24, 18, 73, 29, 43, 19, 24], borderWidth: 4, borderColor: Zi.Z(`${Ji}primary`) },
-                                    { label: "Expense", data: [18, 23, 79, 37, 19, 45, 55, 72, 79, 57, 32, 59], borderWidth: 4, borderColor: Zi.Z(`${Ji}dark`), hidden: !0 },
+                                    { label: "Created", data: [28, 70, 68, 77, 35, 24, 18, 73, 29, 43, 19, 24], borderWidth: 4, borderColor: Zi.Z(`${Ji}primary`) },
+                                    { label: "Resolved", data: [18, 23, 79, 37, 19, 45, 55, 72, 79, 57, 32, 59], borderWidth: 4, borderColor: Zi.Z(`${Ji}dark`), hidden: !0 },
                                 ],
                             },
                             options: {
-                                scales: { y: { ticks: { callback: (e, t, n) => (e > 0 ? "$" + e + "k" : e) } } },
-                                plugins: { tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(e.parsed.y) } } },
+                                scales: { y: { ticks: { callback: (e, t, n) => (e > 0 ? e + "k" : e) } } },
+                                plugins: { tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US").format(e.parsed.y) } } },
                             },
                         });
                     })
                     .catch(console.warn);
-            const ts = document.getElementById("currentBalanceChart");
+            const ts = document.getElementById("currentProgressChart");
             ts &&
                 r
                     .e(427)
@@ -4323,7 +4323,7 @@
                             options: {
                                 layout: { padding: { top: 2, bottom: -10 } },
                                 scales: { x: { ticks: { display: !1 } }, y: { display: !1 } },
-                                plugins: { tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US", { style: "currency", currency: "USD" }).format(e.parsed.y), labelColor: (e) => ({ backgroundColor: Zi.Z(`${Ji}light`) }) } } },
+                                plugins: { tooltip: { callbacks: { label: (e) => new Intl.NumberFormat("en-US").format(e.parsed.y), labelColor: (e) => ({ backgroundColor: Zi.Z(`${Ji}light`) }) } } },
                             },
                         });
                     })

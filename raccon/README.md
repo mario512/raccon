@@ -1,8 +1,20 @@
 # Raccon
 
-Raccon is a small PHP framework for quickly starting a simple project and learning how web applications work. It keeps the entry threshold low: routes, controllers, models, templates, sessions, database access, image helpers, and language files are plain PHP files that can be opened and understood without a large toolchain.
+Raccon is a lightweight educational PHP MVC framework for quickly starting a simple project and learning how web applications work. It keeps the entry threshold low: routes, controllers, models, templates, sessions, database access, image helpers, and language files are plain PHP files that can be opened and understood without a large toolchain.
 
-The repository includes a small demo application. Treat it as educational code and a starting point, not as a finished production product.
+The repository includes a small demo application that shows the framework structure in practice. Treat it as educational code and a starting point, not as a finished production product.
+
+Recommended public repository name:
+
+```text
+raccon-php-framework
+```
+
+Recommended GitHub description:
+
+```text
+A lightweight educational PHP MVC framework for learning and rapid project prototyping.
+```
 
 ## Requirements
 
@@ -17,7 +29,7 @@ The repository includes a small demo application. Treat it as educational code a
 cp .env.example .env
 ```
 
-Set your database credentials in `.env`, import your schema, and point the web server document root to your project directory:
+Set your database credentials in `.env`, import your schema, and point the web server document root to the directory where you cloned the project:
 
 ```text
 /path/to/your/raccon
@@ -62,6 +74,8 @@ Language files live in `Views/Catalog/<theme>/locale/<language>/` for the public
 
 ## Publication Notes
 
+- Use a neutral repository name such as `raccon-php-framework` or `raccon-mvc`.
+- Add the GitHub description from the top of this README so the project reads as a framework, not as a site backup.
 - Keep `.env`, logs, SQL dumps, archives, IDE settings, and generated cache out of git.
 - Do not publish real credentials, user records, or private contact details.
 - Use HTTPS in production.
