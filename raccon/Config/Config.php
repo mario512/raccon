@@ -34,7 +34,7 @@ load_env_file(ROOT . '/.env');
 // Template settings
 define('APP_DEBUG',                     filter_var(env_value('APP_DEBUG', '0'), FILTER_VALIDATE_BOOLEAN));
 define('APP_TIMEZONE',                  env_value('APP_TIMEZONE', 'UTC'));
-define('THEME',                         env_value('APP_THEME', 'PrettyDocs-Theme-master'));
+define('THEME',                         env_value('APP_THEME', 'Default'));
 define('TEMPLATE_EXT',                  env_value('APP_TEMPLATE_EXT', 'html'));
 define('PAGE_404',                      '/Site/404.php');
 

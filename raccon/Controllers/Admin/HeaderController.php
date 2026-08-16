@@ -65,7 +65,6 @@ class HeaderController
         $dataPage['user_logo'] =  $this->image->resize($userLogo, 40, 40);
 
         $dataPage['text_menu_settings'] = $this->language['text_menu_settings'];
-        $dataPage['text_menu_orders']   = $this->language['text_menu_orders'];
         $dataPage['text_menu_sign_out'] = $this->language['text_menu_sign_out'];
         
         $dataPage['href_assets']    = Router::getUrlLink(Router::getUrlAsets(true));

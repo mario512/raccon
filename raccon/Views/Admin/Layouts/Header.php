@@ -194,7 +194,7 @@
                                             <?php if ($menu['child']) { ?>
                                                 <?php foreach ($menu['child'] as $keyChild => $child) { ?>
                                                     <li class="nav-item">
-                                                        <a href="<?php echo $child['href']; ?>" class="nav-link <?php echo $child['active_class']; ?>" data-page="get-currency">
+                                                        <a href="<?php echo $child['href']; ?>" class="nav-link <?php echo $child['active_class']; ?>">
                                                             <?php echo $child['name']; ?>
                                                         </a>
                                                     </li>

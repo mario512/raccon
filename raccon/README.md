@@ -2,7 +2,7 @@
 
 Raccon is a small PHP framework for quickly starting a simple project and learning how web applications work. It keeps the entry threshold low: routes, controllers, models, templates, sessions, database access, image helpers, and language files are plain PHP files that can be opened and understood without a large toolchain.
 
-The repository includes a demo application. Treat it as educational code and a starting point, not as a finished commercial or financial product.
+The repository includes a small demo application. Treat it as educational code and a starting point, not as a finished production product.
 
 ## Requirements
 
@@ -63,7 +63,7 @@ Language files live in `Views/Catalog/<theme>/locale/<language>/` for the public
 ## Publication Notes
 
 - Keep `.env`, logs, SQL dumps, archives, IDE settings, and generated cache out of git.
-- Do not publish real credentials, user records, order data, or private contact details.
+- Do not publish real credentials, user records, or private contact details.
 - Use HTTPS in production.
 - Review authentication, authorization, CSRF protection, validation, file uploads, and error handling before using this code beyond learning or prototyping.
 

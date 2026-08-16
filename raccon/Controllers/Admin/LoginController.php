@@ -12,7 +12,7 @@ class LoginController
     {
         
         if (Session::check()) {
-            header("Location: /admin-currency/");
+            header("Location: /admin-control-panel/");
         } else {
     
             $dataPage   = array();
@@ -20,8 +20,8 @@ class LoginController
             $errors     = array();
     
             $dataPage['href_assets']    = Router::getUrlLink(Router::getUrlAsets(true));
-            $dataPage['href_canonical'] = Router::getUrlLink('/admin-currency/');
-            $dataPage['href_action']    = Router::getUrlLink('/admin-currency/');
+            $dataPage['href_canonical'] = Router::getUrlLink('/admin-control-panel/');
+            $dataPage['href_action']    = Router::getUrlLink('/admin-control-panel/');
     
             $dataPage['text_title_login']   = $this->language['text_title_login'];
             $dataPage['text_title_massage'] = $this->language['text_title_massage'];
@@ -51,7 +51,7 @@ class LoginController
                 } else {
                     $dataPage['sucsses'] = $this->language['sucsses_login'];
                     if (User::autch($user)) {
-                       header("Location: /admin-currency/");
+                       header("Location: /admin-control-panel/");
                     }
                 }
             } else {

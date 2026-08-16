@@ -39,12 +39,6 @@ class Session
             $sessionData->user_role             = isset($_SESSION['user_role']) ? $_SESSION['user_role'] : false;
             $sessionData->user_logo             = isset($_SESSION['user_logo']) ? $_SESSION['user_logo'] : false;
             $sessionData->session_id            = isset($_SESSION['session_id']) ? $_SESSION['session_id'] : false;
-            $sessionData->price_fiat            = isset($_SESSION['price_fiat']) ? $_SESSION['price_fiat'] : false;
-            $sessionData->exchange_data         = isset($_SESSION['exchange_data']) ? $_SESSION['exchange_data'] : false;
-            $sessionData->order_id              = isset($_SESSION['order_id']) ? $_SESSION['order_id'] : false;
-            $sessionData->order_last_id         = isset($_SESSION['order_last_id']) ? $_SESSION['order_last_id'] : false;
-            $sessionData->exchange_data_wallet  = isset($_SESSION['exchange_data_wallet']) ? $_SESSION['exchange_data_wallet'] : false;
-            $sessionData->price_crypto          = isset($_SESSION['price_crypto']) ? $_SESSION['price_crypto'] : false;
             $sessionData->user_all_data         = isset($_SESSION) ? $_SESSION : false;
             return $sessionData;
         }
@@ -81,12 +75,6 @@ class Session
         unset($_SESSION['user_email']);
         unset($_SESSION['user_role']);
         unset($_SESSION['session_id']);
-        unset($_SESSION['price_fiat']);
-        unset($_SESSION['exchange_data']);
-        unset($_SESSION['order_id']);
-        unset($_SESSION['order_last_id']);
-        unset($_SESSION['exchange_data_wallet']);
-        unset($_SESSION['price_crypto']);
         unset($_SESSION['user_all_data']);
         session_destroy();
     }

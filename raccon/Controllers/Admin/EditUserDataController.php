@@ -50,10 +50,10 @@ class EditUserDataController extends Admin
             return true;
         }
         
-        $dataPage['href_return']  = Router::getUrlLink('/admin-currency/');;
+        $dataPage['href_return']  = Router::getUrlLink('/admin-control-panel/');
         $dataPage['text_title_edit'] = $language['text_title_edit'];
         $dataPage['href_img']        = $this->image->resize('arrow-left.png', 30, 30);
-        $dataPage['url_image_edit'] = Router::getUrlLink('/admin-currency/');
+        $dataPage['url_image_edit'] = Router::getUrlLink('/admin-control-panel/');
         $dataPage['text_label_name'] = $language['text_label_name'];
         $dataPage['text_help_name'] = $language['text_help_name'];
         $dataPage['text_label_email'] = $language['text_label_email'];

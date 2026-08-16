@@ -59,27 +59,6 @@ class Db
         }
     }
 
-    public function executeMany(string $query, array $batchParams): bool
-    {
-        try {
-            $this->db->beginTransaction();
-            $stmt = $this->db->prepare($query);
-
-            foreach ($batchParams as $params) {
-                foreach ($params as $param => $dataParam) {
-                    $stmt->bindValue(":$param", $dataParam['data'], $dataParam['type']);
-                }
-                $stmt->execute();
-            }
-
-            $this->db->commit();
-            return true;
-        } catch (PDOException $e) {
-            $this->db->rollBack();
-            throw $e;
-        }
-    }
-
     public function __destruct()
     {
         $this->db = NULL;

@@ -167,7 +167,7 @@ class HelloController extends Controller
 3. Create a template:
 
 ```text
-Views/Catalog/PrettyDocs-Theme-master/site/hello.html
+Views/Catalog/Default/site/hello.html
 ```
 
 4. Open:
