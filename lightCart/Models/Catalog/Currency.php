@@ -1,12 +1,7 @@
 <?php
-class Currency
+class Currency extends Model
 {
-    private $db;
-
-    public function __construct()
-    {
-        $this->db = Registry::get('db');
-    }
+    
 
     public function getCategoryCurrency($use = 0)
     {

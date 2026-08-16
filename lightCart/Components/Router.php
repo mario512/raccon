@@ -26,61 +26,62 @@ class Router
 
     public function run()
     {
-        // Получить строку запроса
+        // Получаем строку запроса
         $uri = $this->getURI();
+        $matched = false;
 
-        // Проверить наличие такого запроса в routes.php
         foreach ($this->routes as $uriPattern => $path) {
 
-            // Сравниваем $uriPattern и $uri
-            if (preg_match("~^$uriPattern$~", $uri) || $uriPattern == "") {
-
-                // Получаем внутренний путь из внешнего согласно правилу.
+            // Проверка соответствия URI шаблону
+            if ($uriPattern === '' && $uri === '') {
+                $internalRoute = $path;
+            } elseif (preg_match("~^$uriPattern$~", $uri)) {
                 $internalRoute = preg_replace("~$uriPattern~", $path, $uri);
+            } else {
+                continue;
+            }
 
-                // Определить контроллер, action, параметры
-                $segments = explode('/', $internalRoute);
+            $matched = true;
 
-                $controllerName = array_shift($segments) . 'Controller';
-                $controllerName = ucfirst($controllerName);
+            // Разбиваем внутренний путь
+            $segments = explode('/', trim($internalRoute, '/'));
 
-                $actionName = 'action' . ucfirst(array_shift($segments));
-                $parameters = $segments;
-                
-                // Определение каталога контроллера
-                switch (preg_match("~admin~", $uri)) {
-                    case 0:
-                        $catalog = '/Controllers/Catalog/';
-                        break;
-                    case 1:
-                        $catalog = '/Controllers/Admin/';
-                        break;
-                }
+            $controllerName = ucfirst(array_shift($segments)) . 'Controller';
+            $actionName     = 'action' . ucfirst(array_shift($segments) ?? 'index');
+            $parameters     = $segments;
 
-                $controllerFile = ROOT . $catalog . $controllerName . '.php';
-                
-                // Проверка файла и подключение файла
-                if (file_exists($controllerFile)) {
-                    include_once($controllerFile);
-                    if (class_exists($controllerName)) {
-                        $controllerObject = new $controllerName;
-                        if (method_exists($controllerObject, $actionName)) {
-                            $result = call_user_func_array(array($controllerObject, $actionName), $parameters);
-                        } else {
-                            $result = null;
-                        }
+            // Определяем каталог контроллера (admin или catalog)
+            if (strpos($uri, 'admin') === 0) {
+                $catalog = '/Controllers/Admin/';
+            } else {
+                $catalog = '/Controllers/Catalog/';
+            }
+
+            $controllerFile = ROOT . $catalog . $controllerName . '.php';
+
+            // Проверка существования файла
+            if (is_file($controllerFile)) {
+                include_once $controllerFile;
+
+                if (class_exists($controllerName)) {
+                    $controllerObject = new $controllerName;
+
+                    if (method_exists($controllerObject, $actionName)) {
+                        // Запускаем экшен с параметрами
+                        call_user_func_array([$controllerObject, $actionName], $parameters);
+                        return; // Всё успешно, прекращаем роутинг
                     }
-                } else {
-                    $result = null;
-                }
-
-                if ($result != null) {
-                    break;
-                } else {                  
-                    Errors::err404();     
-                    break;
                 }
             }
+
+            // Если файл, класс или метод не найдены — ошибка 404
+            Errors::handle404();
+            return;
+        }
+
+        // Если вообще ничего не совпало
+        if (!$matched) {
+            Errors::handle404();
         }
     }
 
@@ -103,19 +104,17 @@ class Router
     public static function getUrlAsets($admin = false)
     {
         if ($admin) {
-            $atchAssets = array(
+            $patchAssets = [
                 'Views',
                 'Admin',
                 'Assets'
-            );
+            ];
         } else {
-            $atchAssets  = array(
-                'Views',
-                'Catalog',
-                THEME,
-                'Assets'
-            );
+            $patchAssets  = [
+                'Theme',
+                THEME
+            ];
         }
-        return $atchAssets;
+        return self::getUrlLink($patchAssets);
     }
 }

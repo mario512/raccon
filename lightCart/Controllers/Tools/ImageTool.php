@@ -2,7 +2,6 @@
 
 class ImageTool
 {
-
     public $image;
 
     public function resize($fileName, $width = '', $height = '')
@@ -11,8 +10,11 @@ class ImageTool
         $catalogImage       = ROOT . '/' . CATALOG_IMAGE . '/';
         $catalogCacheImage  = '/cache/image';
 
+        // Проверяем наличие исходного файла
         if (!is_file($catalogImage . $fileName)) {
-            if (is_file($catalogImage . 'no_image.jpg')) {
+            if (is_file($catalogImage . 'no_image.webp')) {
+                $fileName = 'no_image.webp';
+            } elseif (is_file($catalogImage . 'no_image.jpg')) {
                 $fileName = 'no_image.jpg';
             } elseif (is_file($catalogImage . 'no_image.png')) {
                 $fileName = 'no_image.png';
@@ -21,80 +23,83 @@ class ImageTool
             }
         }
 
-        $patch      = (pathinfo($fileName, PATHINFO_DIRNAME) != '.') ? pathinfo($fileName, PATHINFO_DIRNAME) . '/' : '';
-        $name       =  pathinfo($fileName, PATHINFO_FILENAME);
-        $extension  =  pathinfo($fileName, PATHINFO_EXTENSION);
+        $pathInfo = pathinfo($fileName);
+        $patch = ($pathInfo['dirname'] != '.') ? $pathInfo['dirname'] . '/' : '';
+        $name = StringFunctions::stripTags(StringFunctions::transLit($pathInfo['filename']));
+        $extension = strtolower($pathInfo['extension']);
 
         $imageOriginal = $fileName;
+        $imageNew = $patch . $name . '-' . (int) $width . 'x' . (int) $height . '.' . $extension;
 
-        $imageNew = $patch
-            . StringFunctions::stripTags(StringFunctions::transLit($name))
-            . '-' . (int) $width . 'x' . (int) $height . '.' . $extension;
+        $cacheFullPath = ROOT . $catalogCacheImage . '/' . $imageNew;
+        $sourceFullPath = $catalogImage . $imageOriginal;
 
-        if (!is_file(ROOT . $catalogCacheImage . '/' . $imageNew) || (filectime($catalogImage . $imageOriginal) > filectime(ROOT . $catalogCacheImage . '/' . $imageNew))) {
+        // Проверяем, нужно ли пересоздать кеш
+        if (!is_file($cacheFullPath) || (filectime($sourceFullPath) > filectime($cacheFullPath))) {
             if ($extension !== 'svg') {
-                $imgW       = getimagesize($catalogImage . $imageOriginal)['0'];
-                $imaH       = getimagesize($catalogImage . $imageOriginal)['1'];
-                $imgType    = getimagesize($catalogImage . $imageOriginal)['2'];
 
-                switch ($imgType) {
-                    case IMAGETYPE_PNG;
-                        break;
-                    case IMAGETYPE_JPEG;
-                        break;
-                    case IMAGETYPE_GIF;
-                        break;
-                    default:
-                        return $catalogImage . $imageOriginal;
+                // Загружаем информацию об изображении один раз
+                $imageInfo = getimagesize($sourceFullPath);
+                [$imgW, $imgH, $imgType] = $imageInfo;
+
+                // Поддерживаем только корректные форматы
+                if (!in_array($imgType, [IMAGETYPE_JPEG, IMAGETYPE_PNG, IMAGETYPE_GIF, IMAGETYPE_WEBP])) {
+                    return $sourceFullPath;
                 }
+
             } else {
-                $imgW = '';
-                $imaH = '';
-                $imgType = '';
+                // SVG не ресайзим
+                copy($sourceFullPath, $cacheFullPath);
+                return Router::getUrlLink($catalogCacheImage . '/' . $imageNew);
             }
 
-            $patchImg           = ROOT;
-            $sigmentsPatchImg   = explode('/', dirname($catalogCacheImage . '/' . $imageNew));
-
-            foreach ($sigmentsPatchImg as $dir) {
+            // Создаем структуру каталогов
+            $pathBuild = ROOT;
+            foreach (explode('/', dirname($catalogCacheImage . '/' . $imageNew)) as $dir) {
                 if (!empty($dir)) {
-                    $patchImg = $patchImg . '/' . $dir;
-                    if (!is_dir($patchImg)) {
-                        @mkdir($patchImg, 0777);
+                    $pathBuild .= '/' . $dir;
+                    if (!is_dir($pathBuild)) {
+                        @mkdir($pathBuild, 0777, true);
                     }
                 }
             }
 
-            if ($imgW != $width || $imaH != $height) {
-                $resultImage = new Image($catalogImage . $imageOriginal);
+            // Если размер другой — ресайзим
+            if ($imgW != $width || $imgH != $height) {
+                $resultImage = new Image($sourceFullPath);
                 $resultImage->compression = $quality;
                 $resultImage->resize($width, $height);
-                $resultImage->save(ROOT . $catalogCacheImage . '/' . $imageNew, 0755);
+                $resultImage->save($cacheFullPath, 0755);
             } else {
-                copy($catalogImage . $imageOriginal, ROOT . $catalogCacheImage . '/' . $imageNew);
+                copy($sourceFullPath, $cacheFullPath);
             }
         }
+
         return Router::getUrlLink($catalogCacheImage . '/' . $imageNew);
     }
 
     public function uploadImg($file)
     {
-        $typeImg = array(
+        $allowedTypes = [
             'image/gif',
             'image/png',
-            'image/jpeg'
-        );
+            'image/jpeg',
+            'image/webp'
+        ];
 
-        $sizeImg = '1024000';
-        $patchImg = ROOT . '/' . CATALOG_IMAGE . '/bank/';
-        if (in_array($_FILES['file']['type'], $typeImg) && $_FILES['file']['size'] < $sizeImg) {
-            $newImg = $patchImg . $_FILES['file']['name'];
+        $maxSize = 1024000; // 1MB
+        $uploadDir = ROOT . '/' . CATALOG_IMAGE . '/';
+
+        if (in_array($_FILES['file']['type'], $allowedTypes) && $_FILES['file']['size'] < $maxSize) {
+            $newImg = $uploadDir . basename($_FILES['file']['name']);
             if (@copy($_FILES['file']['tmp_name'], $newImg)) {
                 chmod($newImg, 0755);
-                return '/bank/' . $_FILES['file']['name'];
-            } else {
-                return false;
+                return '/' . $_FILES['file']['name'];
             }
         }
+
+        return false;
     }
+
+    
 }

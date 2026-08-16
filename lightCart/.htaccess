@@ -1,13 +1,50 @@
+# =============================
+# 🔒 Безопасность и базовые настройки
+# =============================
+
+# Запрет листинга директорий
 Options -Indexes
-<FilesMatch "(?i)((\.tpl|\.ini|\.log|(?<!robots)\.txt))">
-Require all denied
+
+# Закрываем служебные файлы
+<FilesMatch "(?i)\.(tpl|ini|log|txt)$">
+  Require all denied
 </FilesMatch>
+
+# Разрешаем robots.txt
+<Files "robots.txt">
+  Require all granted
+</Files>
+
+# =============================
+# 🔁 Перезаписи (Rewrite)
+# =============================
 RewriteEngine On
-RewriteBase /
+
+# ---------------------------------
+# 🚫 Редирект всех index.* на /
+# ---------------------------------
+# Любые index.php, index.html, index.htm и т.п. → /
+RewriteCond %{THE_REQUEST} \s/+index\.(php|html?|asp|aspx|cgi|pl)\s [NC]
+RewriteRule ^index\.(php|html?|asp|aspx|cgi|pl)$ / [R=301,L]
+
+# =============================
+# 🎨 Роутинг темы (frontend)
+# =============================
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
-RewriteRule .* index.php [L]
-# remove browser bugs
-BrowserMatch ^Mozilla/4 gzip-only-text/html
-BrowserMatch ^Mozilla/4\.0[678] no-gzip
-BrowserMatch \bMSIE !no-gzip !gzip-only-text/html
+RewriteRule "(?i)^theme/([^/]+)/(.*)$" /Views/Catalog/$1/$2 [L]
+
+# =============================
+# ⚙️ Роутинг админки (assets)
+# =============================
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule "(?i)^admin/assets/(.*)$" /Views/Admin/Assets/$1 [L]
+
+# =============================
+# 🧭 Основной роутинг (index.php)
+# =============================
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule . /index.php [L]
+

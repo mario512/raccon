@@ -11,7 +11,7 @@ $loader->autoLoad();
 Registry::set('load',       $loader);
 Registry::set('db',         (new Db()));
 Registry::set('language',   (new Language(LANGUAGE_CODE)));
-//Registry::set('config',     $loader->load('controllers_tools_configController')->getSettingsAll());
+Registry::set('doom',       (new Doom));
 Registry::set('image',      $loader->load('controllers_tools_imageTool'));
 
 // Запуск сесии

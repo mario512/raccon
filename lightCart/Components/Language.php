@@ -3,6 +3,7 @@
 class Language
 {
     private $languageCode;
+    private $languageValue;
 
     public function __construct($languageCode)
     {
@@ -26,29 +27,47 @@ class Language
     public function getLanguage($fileName, $isAdmin = false)
     {
         if ($isAdmin) {
-            $languagePatch = ROOT . '/Views/Admin/Language/' . $this->languageCode . '/' . ucfirst($fileName) . '.php';
+            $languagePatch = ROOT . '/Views/Admin/locale/' . $this->languageCode . '/' . ucfirst($fileName) . '.php';
         } else {
-            $languagePatch = ROOT . '/Views/Catalog/' . THEME . '/Language/' . $this->languageCode . '/' . ucfirst($fileName) . '.php';
+            $languagePatch = ROOT . '/Views/Catalog/' . THEME . '/locale/' . $this->languageCode . '/' . ucfirst($fileName) . '.php';
         }
+
         if (is_file($languagePatch)) {
-            return include $languagePatch;
+            $langData = include $languagePatch;
+            if (is_array($langData)) {
+                $this->languageValue = array_merge($this->languageValue ?? [], $langData);
+            }
+        } else {
+            $this->languageValue = [];
         }
+
+        return $this;
     }
+
 
     public function getLanguagePlugins($fileName)
     {
 
-        $languagePatch = ROOT . '/Plugins/Language/' . ucfirst($fileName) . '_' . ucfirst($this->languageCode) . '.php';
+        $languagePatch = ROOT . '/Plugins/locale/' . ucfirst($fileName) . '_' . ucfirst($this->languageCode) . '.php';
         if (is_file($languagePatch)) {
             return include_once $languagePatch;
         }
     }
-    
+
     public function getLanguageSystem()
     {
-        $languagePatch = ROOT . '/Config/Language_' . LANGUAGE_CODE . '.php';
+        $languagePatch = ROOT . '/Config/locale_' . LANGUAGE_CODE . '.php';
         if (is_file($languagePatch)) {
             return include_once $languagePatch;
+        }
+    }
+
+    public function get($key)
+    {
+        if (array_key_exists($key, $this->languageValue)) {
+            return $this->languageValue[$key];
+        } else {
+            return $key;
         }
     }
 }
